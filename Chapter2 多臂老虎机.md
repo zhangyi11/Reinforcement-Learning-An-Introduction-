@@ -29,6 +29,6 @@ $q_{\ast}(a) \dot{=} \mathbb{E}[R_t \mid A_t = a]$
 ## 2.2 行动价值方法
 首先，我们研究行动的估计价值函数，并用行动的估计价值做出决策。回想一下，行动的真实价值是选择该行动时会得到的平均奖励。因此，我们自然的会想到用行动之前获得奖励的平均值作为该行动的估计价值:
 $$Q_t(a)\dot{=}\frac{时间步t之前行动a获得奖励的总和}{时间步t之前行动a被选择的次数}==\sum\limits_{i=1}^{t-1}R_i \cdot \mathbf{1}_{\{A_i = a\}}$$
-其中$1_predicate$指的是当predicate为真时$1_predicate$的值为1，当predicate为假时，$1_predicate$的值为0。
+其中$`1_predicate`$指的是当predicate为真时$`1_predicate`$的值为1，当predicate为假时，$`1_predicate`$的值为0。
 
 
