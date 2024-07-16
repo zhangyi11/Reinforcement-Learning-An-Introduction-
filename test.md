@@ -7,3 +7,4 @@ $$新估计值 \leftarrow 旧估计值+ 步长[目标-旧估计值]$$
 我们注意到，在公式2.3增量方法中使用的步长参数会随着时间步长的变化而变化。处理动作a第n次奖励时，增量方法使用的步长参数为$`\frac{1}{n}`$。本书中我们用$`\alpha`$或$`\alpha_t(a)`$来表示步长参数。
 
 以下伪代码使用了样本平均法，$`\epsilon`$-贪婪方法和增量公式表示老虎机问题的算法，函数bandit(a)返回动作a相应的奖励。
+!image[https://github.com/zhangyi11/Reinforcement-Learning-An-Introduction-/blob/main/images/A%20simple%20bandit%20algorithm.jpg]
