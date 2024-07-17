@@ -14,4 +14,10 @@ $$新估计值 \leftarrow 旧估计值+ 步长[目标-旧估计值]$$
 
 $$Q_{n+1}\dot{=}Q_n+\alpha[R_n-Q_n]$$
 
-其中$`\alpha\in(0,1]`$。
+其中$`\alpha\in(0,1]`$。公式表明$`Q_{n+1}`$是初始估计值$`Q_1`$和过去奖励和的加权平均。
+
+$$ Q_{n+1} = Q_n+\alpha[R_n-Q_n] = \alpha R_n+(1-\alpha)Q_n = \alpha R_n+(1-\alpha)[\alpha R_{n-1}+(1-\alpha)Q_{n-1}]=(1-\alpha)^nQ_1+\sum_{i=1}^{n}\alpha(1-\alpha)^{n-1}R_i$$
+
+$$ 其中，(1-\alpha)^n + \sum_{i=1}^{n}\alpha(1-\alpha)^{n-1} = 1，即权重之和为1 $$
+
+权重$`\alpha(1-\alpha)^{n-1}`$取决于$`R_i`$之间有多少奖励，$`1-\alpha`$的值小于1，介于两个奖励之间的奖励数量越多，$`R_i`$的权重就越小。
