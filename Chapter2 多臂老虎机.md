@@ -135,7 +135,7 @@ class Ten_Armed_Testbed:
 
     def step(self,action,constant_parameter=False):
         reward = np.random.normal(self.true_values[action],1)  # 假定每个行动的实际奖励值服从均值为q*(a)，方差为1的正态分布。
-        self.true_values = [i+np.random.normal(0,0.01) for i in self.true_values]  # 每一个行动后，给给所有的q*(a)添加一个均值为0，方差为0.01的增量
+        self.true_values = [i+np.random.normal(0,0.01) for i in self.true_values]  # 每一个行动后，给给所有的q*(a)添加一个均值为0，方差为0.01的随机增量
         self.count[action] += 1
         if constant_parameter:
             self.estimate_values[action] += self.alpha*(reward - self.estimate_values[action])  # 增量公式，固定步长，计算行动的估计价值
