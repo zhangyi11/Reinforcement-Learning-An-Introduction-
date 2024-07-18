@@ -35,6 +35,53 @@ _答案_
 
 $$ Q_{n+1} = Q_n + \alpha_n[R_n-Q_n]=\alpha_nR_n+(1-\alpha_n)Q_n=\alpha_nR_n+(1-\alpha_n)[\alpha_{n-1}R_{n-1}+(1-\alpha_{n-1})Q_{n-1}]=(1-\alpha_1)^nQ_1+\sum_{i=1}^n\alpha_iR_i\prod_{j=i+1}^n(1-\alpha_j) $$
 
-_练习2.5_ 请设计一个实验，以展现样本平均法在非稳态问题时遇到的困难。例如，使用10臂老虎机，最初老虎机每个臂的$`q_*(a)`$相等，然后每个臂的真实奖励随机独立改变（例如，每一步中，给所有的$`q_*(a)`$添加一个均值为0，方差为0.01的增量。）使用样本平均法、增量公式、以及恒定的步长参数如$`\alpha=0.1`$和$`\epsilon`$-贪婪方法（$`\epsilon`$=0.1），运行10000步。
+_练习2.5_ （编程）请设计一个实验，以展现样本平均法在非稳态问题时遇到的困难。例如，使用10臂老虎机，最初老虎机每个臂的$`q_*(a)`$相等，然后每个臂的真实奖励随机独立改变（例如，每一步中，给所有的$`q_*(a)`$添加一个均值为0，方差为0.01的增量。）使用样本平均法、增量公式、以及恒定的步长参数如$`\alpha=0.1`$和$`\epsilon`$-贪婪方法（$`\epsilon`$=0.1），运行10000步。
 
+_答案_
+```
+import numpy as np
+
+class Ten_Armed_Testbed:
+    def __init__(self,num_arms=10,epsilon=0.1,alpha=0.1):
+        self.arms = num_arms
+        self.epsilon = epsilon
+        self.true_values = [0] * num_arms   # 行动的真实价值，初始值为0
+        self.estimate_values = [0] *num_arms  # 行动的估计价值
+        self.count = [0] * num_arms  # 记录每个行动的选择次数（仅样本平均法，即非固定步长时使用）
+        self.alpha = alpha
+
+    def get_action(self):
+        if np.random.random() > self.epsilon:
+            return np.argmax(self.estimate_values)
+        else: return np.random.choice(self.arms)
+
+    def step(self,action,constant_parameter=False):
+        reward = np.random.normal(self.true_values[action],1)  # 假定每个行动的实际奖励值服从均值为q*(a)，方差为1的正态分布。
+        self.true_values = [i+np.random.normal(0,0.01) for i in self.true_values]  # 每一个行动后，给给所有的q*(a)添加一个均值为0，方差为0.01的增量
+        self.count[action] += 1
+        if constant_parameter:
+            self.estimate_values[action] += self.alpha*(reward - self.estimate_values[action])  # 增量公式，固定步长，计算行动的估计价值
+        else:
+            if self.count[action] != 0:
+                self.estimate_values[action] += 1/self.count[action]*(reward - self.estimate_values[action])
+
+
+
+def run_experiment(bandit, steps=100000, trials=10):  # 步数在1w时，样本平均法有时会优于固定参数，但是步数在10w时，固定参数总是优于样本平均法
+    for _ in range(trials):
+        for constant_step_size in [False, True]:
+            for _ in range(steps):
+                action = bandit.get_action()
+                bandit.step(action, constant_step_size)
+            error = np.abs(np.mean(np.array(bandit.true_values) - np.array(bandit.estimate_values)))
+            print(f"{constant_step_size = },{error = }")
+        print("-"*10)
+        # print(f"{bandit.count = }")
+
+if __name__ == "__main__":
+    bandit = Ten_Armed_Testbed()
+    run_experiment(bandit)
+
+#(译者注：上述代码是译者自己写的，可能存在问题）
+```
 
