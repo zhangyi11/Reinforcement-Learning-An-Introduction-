@@ -82,6 +82,6 @@ if __name__ == "__main__":
     bandit = Ten_Armed_Testbed()
     run_experiment(bandit)
 
-#(译者注：上述代码是译者自己写的，可能存在问题）
+#(译者注：上述代码是译者自己写的，可能存在问题，仅供参考哈）
 ```
 
