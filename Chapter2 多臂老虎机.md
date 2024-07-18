@@ -123,7 +123,7 @@ class Ten_Armed_Testbed:
     def __init__(self,num_arms=10,epsilon=0.1,alpha=0.1):
         self.arms = num_arms
         self.epsilon = epsilon
-        self.true_values = [0] * num_arms   # 行动的真实价值，初始值为0
+        self.true_values = [np.random.normal(0,1) for _ in range(num_arms)]   # 从均值为0方差为1的正态分布中随机抽取值，作为行动的真实价值
         self.estimate_values = [0] *num_arms  # 行动的估计价值
         self.count = [0] * num_arms  # 记录每个行动的选择次数（仅样本平均法，即非固定步长时使用）
         self.alpha = alpha
